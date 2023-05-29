@@ -14,7 +14,18 @@ function Main(props) {
       setUserName(data.name);
       setUserDescription(data.about);
       setUserAvatar(data.avatar);
-    });
+    })
+    .catch((err) => console.log(err));
+  }, []);
+
+  const [cards, setCards] = React.useState([]);
+
+  React.useEffect(() => {
+    api.getCards()
+    .then((data) => {
+      setCards(data);
+    })
+    .catch((err) => console.log(err));
   }, []);
   
   return (
@@ -33,7 +44,7 @@ function Main(props) {
       </section>
       <section className="cards">
         <ul className="card">
-          {props.cards.map((card) => {return <Card key={card._id} card={card} onCardClick={card} {...props}/>})}
+          {cards.map((card) => {return <Card key={card._id} card={card} onCardClick={card} {...props}/>})}
         </ul>
       </section>
     </main>
