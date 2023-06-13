@@ -24,7 +24,7 @@ function AddPlacePopup(props) {
   function handleSubmit(e) {
     e.preventDefault();
     props.onAddPlace({
-      name: city,
+      name: name,
       link: link,
     })
   }
@@ -33,7 +33,7 @@ function AddPlacePopup(props) {
     <PopupWithForm isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} name="form-info" title="Новое место" buttonText="Создать" 
       children={<>
         <label className="popup__field">
-          <input type="text" id="city" name="city" minLength="2" maxLength="30" placeholder="Название" className="popup__input popup__input_type_city" value={name} autoComplete="off" required onChange={handleCityChange} />
+          <input type="text" id="city" name="name" minLength="2" maxLength="30" placeholder="Название" className="popup__input popup__input_type_city" value={name} autoComplete="off" required onChange={handleCityChange} />
           <span className="popup__error city-error">Ошибка</span>
         </label>
         <label className="popup__field">
