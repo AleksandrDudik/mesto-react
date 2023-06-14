@@ -90,35 +90,35 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {setCards((state) => state.map((c) => c._id === card._id ? newCard : c));});
+      .then((newCard) => {setCards((state) => state.map((c) => c._id === card._id ? newCard : c));})
+      .catch((err) => console.log(err));
   }
 
   const isOpen = isAvatarPopupOpen || isProfilePopupOpen || isAddPlacePopupOpen || selectedCard;
 
   React.useEffect(() => {
+
     function handleCloseByEscape(evt) {
       if(evt.key === 'Escape') {
         closeAllPopups();
       }
     }
 
-    if(isOpen) {
-      document.addEventListener('keydown', handleCloseByEscape);
-      return () => {
-        document.removeEventListener('keydown', handleCloseByEscape);
-      }
-    }
-  }, [isOpen]);
-
-  React.useEffect(()=> {
-    const handleCloseByOverlay = (evt) => {
+    function handleCloseByOverlay(evt) {
       if (evt.target.classList.contains('popup')) {
         closeAllPopups();
       }
-    };
-    document.addEventListener('mousedown', handleCloseByOverlay);
-    return () => document.removeEventListener('mousedown', handleCloseByOverlay);
-  });
+    }
+
+    if(isOpen) {
+      document.addEventListener('keydown', handleCloseByEscape);
+      document.addEventListener('mousedown', handleCloseByOverlay);
+      return () => {
+        document.removeEventListener('keydown', handleCloseByEscape);
+        document.removeEventListener('mousedown', handleCloseByOverlay);
+      }
+    }
+  }, [isOpen]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
